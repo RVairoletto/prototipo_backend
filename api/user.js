@@ -13,23 +13,23 @@ module.exports =  app =>{
         if(req.params.id) user.id = req.params.id
 
         try{
-            existsOrError(user.name, 'Nome não informado')
-            existsOrError(user.email, 'E-mail não informado')
-            existsOrError(user.password, 'Senha não informada')
-            existsOrError(user.confirmPassword, 'Confirmação de senha inválida')
-            equalsOrError(user.password,user.confirmPassword,'Senhas não conferem')
+            existsOrError(user.name, {"error":"Nome não informado"})
+            existsOrError(user.email,  {"error":"email não informado"})
+            existsOrError(user.password,  {"error":"Senha não informada"})
+            //existsOrError(user.confirmPassword, 'Confirmação de senha inválida')
+           // equalsOrError(user.password,user.confirmPassword,'Senhas não conferem')
 
             const userFromDB = await app.db('users')
                 .where({email:user.email}).first()
             if(!user.id){
-                notExistsOrError(userFromDB,'Usuário já cadastrado')
+                notExistsOrError(userFromDB, {"error":"Usuário já cadastrado"})
             }
 
         }catch(msg){
             return res.status(400)
         }
         user.password = encryptPassword(user.password)
-        delete user.confirmPassword
+        //delete user.confirmPassword
 
         if(user.id){
             app.db('users')
