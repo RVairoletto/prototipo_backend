@@ -62,5 +62,15 @@ module.exports =  app =>{
             .catch(err=> res.status(500).send(err))
     }
 
-    return{save, get,getById }
+    const newPassword = (req, res)=> {
+        const user = {...req.body}
+        user.password = encryptPassword(user.password)
+        app.db('users')
+            .where({id: user.id})
+            .update('password', user.password)
+            .then(users=>res.json(users))
+            .catch(err=> res.status(500).send(err))       
+    }
+
+    return{save, get,getById, newPassword }
 }
