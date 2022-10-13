@@ -68,7 +68,7 @@ module.exports =  app =>{
         app.db('users')
             .where({id: user.id})
             .update('password', user.password)
-            .then(users=>res.json(users))
+            .then(users=>res.status(204).send({"res":true}))
             .catch(err=> res.status(500).send(err))       
     }
 
