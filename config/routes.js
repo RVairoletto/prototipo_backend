@@ -7,6 +7,8 @@ module.exports = app =>{
         .post(app.api.user.save)
         .get(app.api.user.get)
         
+    app.route('/users/edit')
+        .post(app.api.user.edit)
 
     app.route('/users/newPassword')
         .post(app.api.user.newPassword)

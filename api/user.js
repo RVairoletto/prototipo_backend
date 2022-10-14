@@ -64,6 +64,9 @@ module.exports =  app =>{
 
     const newPassword = (req, res)=> {
         const user = {...req.body}
+
+        if(req.params.id) user.id = req.params.id
+
         user.password = encryptPassword(user.password)
         app.db('users')
             .where({id: user.id})
@@ -72,5 +75,19 @@ module.exports =  app =>{
             .catch(err=> res.status(500).send(err))       
     }
 
-    return{save, get,getById, newPassword }
+    const edit = (req, res)=> {
+        const user = {...req.body}
+        if(req.params.id) user.id = req.params.id
+
+        user.password = encryptPassword(user.password)
+
+        app.db('users')
+                .update(user)
+                .where({id:user.id})
+                .then(_=> res.status(204).send())
+                .catch(err=> res.status(500).send(err))
+
+    }
+
+    return{save, get,getById, newPassword, edit }
 }
