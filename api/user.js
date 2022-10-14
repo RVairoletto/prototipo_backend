@@ -79,8 +79,6 @@ module.exports =  app =>{
         const user = {...req.body}
         if(req.params.id) user.id = req.params.id
 
-        user.password = encryptPassword(user.password)
-
         app.db('users')
                 .update(user)
                 .where({id:user.id})
