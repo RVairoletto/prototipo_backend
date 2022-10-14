@@ -9,6 +9,7 @@ exports.up = function(knex, Promise) {
         table.string('email').notNullable().unique()
         table.string('password').notNullable().defaultTo(false)
         table.boolean('admin').notNullable().defaultTo(false)
+        table.boolean('disabled').notNullable().defaultTo(false)
       })
     
 };
