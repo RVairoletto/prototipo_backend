@@ -48,14 +48,14 @@ module.exports =  app =>{
     }
     const get = (req, res)=> {
         app.db('users')
-            .select('id','name','email','admin')
+            .select('id','name','email','admin','disabled')
             .then(users=> res.json(users))
             .catch(err=> res.status(500).send(err))
     }
 
     const getById = (req, res)=> {
         app.db('users')
-            .select('id','name','email','admin')
+            .select('id','name','email','admin','disabled')
             .where({id: req.params.id})
             .first()
             .then(user=> res.json(user))
@@ -65,19 +65,16 @@ module.exports =  app =>{
     const newPassword = (req, res)=> {
         const user = {...req.body}
 
-        if(req.params.id) user.id = req.params.id
-
         user.password = encryptPassword(user.password)
         app.db('users')
             .where({id: user.id})
             .update('password', user.password)
-            .then(users=>res.status(204).send({"res":true}))
+            .then(users=>res.status(204).send())
             .catch(err=> res.status(500).send(err))       
     }
 
     const edit = (req, res)=> {
         const user = {...req.body}
-        if(req.params.id) user.id = req.params.id
 
         app.db('users')
                 .update(user)
