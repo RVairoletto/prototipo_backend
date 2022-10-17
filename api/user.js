@@ -29,7 +29,7 @@ module.exports =  app =>{
             return res.status(400)
         }
         user.password = encryptPassword(user.password)
-        //delete user.confirmPassword
+        
 
         if(user.id){
             app.db('users')
