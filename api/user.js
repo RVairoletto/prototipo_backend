@@ -84,5 +84,14 @@ module.exports =  app =>{
 
     }
 
-    return{save, get,getById, newPassword, edit }
+    const disable = (req,res) => {
+        const user = {...req.body}
+        app.db('users')
+            .where({id: user.id})
+            .update('disabled', user.disabled)
+            .then(users=>res.status(204).send())
+            .catch(err=> res.status(500).send(err))  
+    }
+
+    return{save, get,getById, newPassword, edit, disable }
 }

@@ -13,6 +13,9 @@ module.exports = app =>{
     app.route('/users/newPassword')
         .post(app.api.user.newPassword)
 
+    app.route('/users/disable')
+        .post(app.api.user.disable)
+
     app.route('/users/:id')
         .put(app.api.user.save)
         .get(app.api.user.getById)
