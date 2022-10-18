@@ -19,7 +19,7 @@ module.exports = app =>{
         if(!isMatch) return res.status(401).send({"error":"Email/Senha incorretos"})
 
         if(req.body.disabled){
-        return res.status(400).send({"warning":"Usuário desabilitado"})
+        return res.status(400).send({"error":"Usuário desabilitado"})
         }
 
         const now = Math.floor(Date.now()/1000)
