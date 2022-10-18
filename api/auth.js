@@ -18,7 +18,7 @@ module.exports = app =>{
         const isMatch = bcrypt.compareSync(req.body.password, user.password)
         if(!isMatch) return res.status(401).send({"error":"Email/Senha incorretos"})
 
-        if(req.body.disabled){
+        if(req.body.disabled== true){
         return res.status(400).send({"error":"Usuário desabilitado"})
         }
 
