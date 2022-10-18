@@ -62,7 +62,7 @@ module.exports =  app =>{
             .catch(err=> res.status(500).send(err))
     }
 
-    const newPassword = (req, res)=> {
+    const newPassword = async (req, res)=> {
         const user = {...req.body}
 
         user.password = encryptPassword(user.password)
@@ -73,7 +73,7 @@ module.exports =  app =>{
             .catch(err=> res.status(500).send(err))       
     }
 
-    const edit = (req, res)=> {
+    const edit = async (req, res)=> {
         const user = {...req.body}
 
         app.db('users')
@@ -84,7 +84,7 @@ module.exports =  app =>{
 
     }
 
-    const disable = (req,res) => {
+    const disable = async (req,res) => {
         const user = {...req.body}
         app.db('users')
             .where({id: user.id})
