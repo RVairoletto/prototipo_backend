@@ -10,6 +10,7 @@ consign()
     .then('./api/validation.js' )
     .then('./api')
     .then('./config/routes.js')
+    .then('./config/mailer.js')
     .into(app)
 
 app.listen(3000, () => {

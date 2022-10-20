@@ -1,6 +1,8 @@
 const {authSecret} = require('../.env')
 const jwt = require('jwt-simple')
 const bcrypt = require('bcrypt-nodejs')
+const crypto = require('crypto')
+const mailer = require ('../config/mailer')
 
 module.exports = app =>{
     const signin = async (req, res) => {
@@ -53,5 +55,39 @@ module.exports = app =>{
         }
         res.send({"res":false})
     }
-    return{signin,validateToken}
+
+    const forgotPassword = async (req, res) => {
+        const {email}= req.body
+
+        const user = await app.db('users')
+            .where({email: req.body})
+            .first()
+
+        if(!user) return res.status(400).send({"error":"Usuário não encontrado"})
+
+        if(user.disabled){
+            return res.status(400).send({"error":"Usuário desabilitado"})
+        }
+
+        const token = crypto.randomBytes(12).toString('hex')
+
+        app.db('users')
+            .where({email: user.email})
+            .update('password', token)
+            .then(_=>res.status(204).send())
+            .catch(err=> res.status(500).send(err))   
+            
+        mailer.sendEmail({
+            to: user.email,
+            from: 'ettspc@gmail.com',
+            template: 'auth/forgot_password',
+            context: {token},
+        },(err)=>{
+            if(err) return res.status(400).send({"error":"Cannot send forgot password"})
+
+            return res.status(204).send()
+        })
+
+    }
+    return{signin,validateToken, forgotPassword}
 }
