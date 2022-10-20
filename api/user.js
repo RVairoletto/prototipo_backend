@@ -77,8 +77,8 @@ module.exports =  app =>{
         const user = {...req.body}
 
         app.db('users')
-                .update(user)
                 .where({id:user.id})
+                .update(user)
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send({err:"Não foi possivel editar o usuário"}))
 
