@@ -17,7 +17,9 @@ module.exports = app =>{
 
         if(!user) return res.status(400).send({"error":"Usuário não encontrado"})
 
-        const isMatch = bcrypt.compareSync(req.body.password, user.password)
+        if(user.password.length()>25){
+            const isMatch = bcrypt.compareSync(req.body.password, user.password)
+        }
         if(!isMatch) return res.status(401).send({"error":"Email/Senha incorretos"})
 
         if(user.disabled){
