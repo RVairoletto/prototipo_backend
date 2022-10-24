@@ -31,7 +31,7 @@ module.exports = app =>{
 
     app.route('/accessLevel')
     .post(app.api.accessLevel.save)
-    .get(app.api.accesslevel.get)
+    .get(app.api.accessLevel.get)
 
     app.route('/accessLevel/:id')
     .put(app.api.accessLevel.save)
