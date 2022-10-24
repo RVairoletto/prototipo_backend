@@ -19,6 +19,12 @@ module.exports = app =>{
     app.route('/users/disable')
         .post(app.api.user.disable)
 
+    app.route('/user/userLevel')
+        .post(app.api.user.userLevel)
+
+    app.route('/user/filter')
+        .get(app.api.user.filterUser)
+
     app.route('/users/:id')
         .put(app.api.user.save)
         .get(app.api.user.getById)
