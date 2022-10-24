@@ -11,6 +11,7 @@ consign()
     .then('./api')
     .then('./config/routes.js')
     .then('./config/mailer.js')
+    .then('./api/accessLevel.js')
     .into(app)
 
 app.listen(3000, () => {
