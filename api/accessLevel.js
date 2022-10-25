@@ -45,5 +45,16 @@ module.exports = app =>{
             .then(Lvl=> res.json(Lvl))
             .catch(err=> res.status(500).send(err))
     }
-    return {save, get, getById}
+
+    const edit = async (req, res)=> {
+        const level = {...req.body}
+
+        app.db('level')
+                .update(level)
+                .where({id:level.id})
+                .then(_=> res.status(204).send())
+                .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
+
+    }
+    return {save, get, getById, edit}
 }

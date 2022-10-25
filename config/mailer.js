@@ -1,15 +1,15 @@
 const path = require ('path')
 const nodemailer = require ('nodemailer')
 const hbs = require ('nodemailer-express-handlebars')
-
+const {host, port, user, pass} = require ('./mail.json')
 
 module.exports = app=>{
     const transport = nodemailer.createTransport({
-        host:"smtp.sendgrid.net",
-        port: 25,
+        host,
+        port,
         auth:{
-            user:"apikey",
-            pass:"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"
+            user,
+            pass
         }
     })
     transport.use('compile',hbs({

@@ -61,7 +61,6 @@ module.exports = app =>{
     }
 
     const forgotPassword = async (req, res) => {
-        const {email}= req.body
 
         const user = await app.db('users')
             .where({email: req.body})
