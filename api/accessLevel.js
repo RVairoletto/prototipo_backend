@@ -8,7 +8,7 @@ module.exports = app =>{
             existsOrError(accessLevel.description, {"error":"Descrição não informada"})
 
             const userFromDB = await app.db('level')
-                .where({description:accessLevel.description}).first()
+                .where({'level.description':accessLevel.description}).first()
             if(!accessLevel.id){
                 notExistsOrError(userFromDB, {"error":"Nivel de acesso já cadastrado"})
             }
