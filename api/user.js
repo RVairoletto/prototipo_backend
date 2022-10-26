@@ -50,7 +50,7 @@ module.exports =  app =>{
     const get = (req, res)=> {
         app.db('users')
             .join('level', 'users.levelId', '=', 'level.id')
-            .select('users.id','users.name','users.email','users.admin','users.disabled','level.description')
+            .select('users.id','users.name','users.email','users.admin','users.disabled','users.levelId','level.description')
             .then(users=> res.json(users))
             .catch(err=> res.status(500).send(err))
     }
@@ -59,7 +59,7 @@ module.exports =  app =>{
         app.db('users')
             .join('level', 'users.levelId', '=', 'level.id')
             .where({'users.id': req.params.id})
-            .select('users.id','users.name','users.email','users.admin','users.disabled','level.description')
+            .select('users.id','users.name','users.email','users.admin','users.disabled','users.levelId','level.description')
             .first()
             .then(user=> res.json(user))
             .catch(err=> res.status(500).send({err:"Não foi possivel buscar o usuário"}))
