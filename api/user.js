@@ -57,9 +57,9 @@ module.exports =  app =>{
     //função get usuário pelo id
     const getById = (req, res)=> {
         app.db('users')
-            .where({id: req.params.id})
             .join('level', 'users.levelId', '=', 'level.id')
             .select('users.id','users.name','users.email','users.admin','users.disabled','level.description')
+            .where({id: req.params.id})
             .first()
             .then(user=> res.json(user))
             .catch(err=> res.status(500).send(err))
