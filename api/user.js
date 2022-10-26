@@ -62,7 +62,7 @@ module.exports =  app =>{
             .where({id: req.params.id})
             .first()
             .then(user=> res.json(user))
-            .catch(err=> res.status(500).send(err))
+            .catch(err=> res.status(500).send({err:"Não foi possivel buscar o usuário"}))
     }
 
     //modifica a senha do usuário
