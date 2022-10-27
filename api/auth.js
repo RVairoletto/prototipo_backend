@@ -36,6 +36,7 @@ module.exports = app =>{
             email: user.email,
             admin: user.admin,
             disabled: user.disabled,
+            levelId: user.levelId,
             iat: now,
             exp: now + (60*60*24)
         }
