@@ -47,11 +47,11 @@ module.exports = app =>{
     }
 
     const edit = async (req, res)=> {
-        const level = {...req.body}
+        const accessLevel = {...req.body}
 
         app.db('level')
-                .update(level)
-                .where({id:level.id})
+                .update(accessLevel)
+                .where({id:accessLevel.id})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
 

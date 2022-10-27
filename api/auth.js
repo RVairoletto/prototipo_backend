@@ -83,7 +83,7 @@ module.exports = app =>{
             
         mailer.sendEmail({
             to: user.email,
-            from: 'ettspc@gmail.com',
+            from: 'ettsegura@gmail.com',
             template: 'auth/forgot_password',
             context: {token},
         },(err)=>{
