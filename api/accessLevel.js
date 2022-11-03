@@ -56,5 +56,59 @@ module.exports = app =>{
                 .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
 
     }
-    return {save, get, getById, edit}
+
+    const newPermission = async (req, res) => {
+        const permission = {...req.body}
+
+        try{
+            existsOrError(permission.levelId, {"error":"Nivel de acesso não informado"})
+            existsOrError(permission.menuId, {"error":"Permissão não informada"})
+
+            const userFromDB = await app.db('permission')
+                .where({'permission.levelId':permission.levelId,'permission.menuId':permission.menuId}).first()
+            if(!permission.levelId||!permission.menuId){
+                notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
+            }
+
+        }catch(msg){
+            return res.status(400)
+        }
+       if(permission.levelId && permission.menuId){
+            app.db('permission')
+                .update(permission)
+                .where({levelId:permission.levelId, menuId:permission.menuId})
+                .then(_=> res.status(204).send())
+                .catch(err=> res.status(500).send(err))
+        } else{
+            app.db('permission')
+                .insert(permission)
+                .then(_=> res.status(204).send())
+                .catch(err=> res.status(500).send(err))
+
+        }
+
+       
+    }
+    const getPermission = async (req, res) => {
+          app.db('permission')
+            .join('menu','menu.id', '=','permission.menuId')
+            .select('menu.id','menu.description')
+            .where({levelId: req.params.levelId})
+            .first()
+            .then(Lvl=> res.json(Lvl))
+            .catch(err=> res.status(500).send(err))
+    }
+
+    const editPermission = async (req, res)=> {
+        const permission = {...req.body}
+
+        app.db('permission')
+                .update(permission)
+                .where({levelId:accessLevel.id})
+                .then(_=> res.status(204).send())
+                .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
+
+    }
+   
+    return {save, get, getById, edit, newPermission, getPermission}
 }
