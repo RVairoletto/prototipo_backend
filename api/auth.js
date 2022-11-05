@@ -64,7 +64,7 @@ module.exports = app =>{
     const forgotPassword = async (req, res) => {
 
         const user = await app.db('users')
-            .where({email: req.body})
+            .where({email: req.body.email})
             .first()
 
         if(!user) return res.status(400).send({"error":"Usuário não encontrado"})

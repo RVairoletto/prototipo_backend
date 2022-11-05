@@ -109,6 +109,32 @@ module.exports = app =>{
                 .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
 
     }
+
+    const deleteLevel = async (req,res)=>{
+        try{
+            
+            const userFromDB = await app.db('user') 
+                .where({'user.levelId': req.params.id})
+            
+            notExistsOrError(userFromDB, {"error":"Nivel de acesso tem usuários cadastrados"})
+            
+
+        }catch(msg){
+            return res.status(400)
+        }
+
+        app.db('permission')
+        .where({levelId:req.params.id})
+        .del()
+        
+        app.db('level')
+        .where({id:req.params.id})
+        .del()
+        .then(_=> res.status(204).send())
+        .catch(err=> res.status(500).send({err:"Não foi possivel deletar"}))
+
+
+    }
    
-    return {save, get, getById, edit, newPermission, getPermission}
+    return {save, get, getById, edit, newPermission, getPermission, deleteLevel}
 }

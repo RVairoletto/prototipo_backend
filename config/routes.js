@@ -32,6 +32,7 @@ module.exports = app =>{
     app.route('/accessLevel/:id')
         .put(app.api.accessLevel.save)
         .get(app.api.accessLevel.getById)
+        .delete(app.api.accessLevel.deleteLevel)
 
     app.route('/menu')
         .post(app.api.menu.save)
