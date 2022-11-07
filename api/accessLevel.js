@@ -114,7 +114,7 @@ module.exports = app =>{
         try{
             
             const userFromDB = await app.db('user') 
-                .where({'user.levelId': req.params.id})
+                .where({'user.levelId': req.body.id})
             
             notExistsOrError(userFromDB, {"error":"Nivel de acesso tem usuários cadastrados"})
             
@@ -124,11 +124,11 @@ module.exports = app =>{
         }
 
         const userFromDB = await app.db('permission') 
-        .where({'permission.levelId': req.params.id})
+        .where({'permission.levelId': req.body.id})
        
         if(userFromDB){
             app.db('permission')
-            .where({levelId:req.params.id})
+            .where({levelId:req.body.id})
             .del()
         }
         app.db('level')

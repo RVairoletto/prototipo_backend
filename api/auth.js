@@ -9,6 +9,8 @@ const hbs = require ('nodemailer-express-handlebars')
 const {host, port, user, pass} = require ('../config/mail.json')
 
 module.exports = app =>{
+    
+    
     const signin = async (req, res) => {
         if(!req.body.email || !req.body.password){
             return res.status(400).send({"error":"Usuário ou senha não informados"})
