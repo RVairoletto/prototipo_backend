@@ -123,10 +123,14 @@ module.exports = app =>{
             return res.status(400)
         }
 
-        app.db('permission')
-        .where({levelId:req.params.id})
-        .del()
-        
+        const userFromDB = await app.db('permission') 
+        .where({'permission.levelId': req.params.id})
+       
+        if(userFromDB){
+            app.db('permission')
+            .where({levelId:req.params.id})
+            .del()
+        }
         app.db('level')
         .where({id:req.params.id})
         .del()
