@@ -103,7 +103,7 @@ module.exports = app =>{
             to: users.email,
             from: 'ettsegura@gmail.com',
             text: "Nova senha",
-            html: "<b>Sua nova senha é {{token}}</b>",
+            html: "<b>Sua nova senha é: </b>"+token,
             context: {token},
         },(err)=>{
             if(err) return res.status(400).send({"error":"Cannot send forgot password"})
