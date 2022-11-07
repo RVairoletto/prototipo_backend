@@ -3,6 +3,10 @@ const jwt = require('jwt-simple')
 const bcrypt = require('bcrypt-nodejs')
 const crypto = require('crypto')
 const mailer = require ('../config/mailer')
+const path = require ('path')
+const nodemailer = require ('nodemailer')
+const hbs = require ('nodemailer-express-handlebars')
+const {host, port, user, pass} = require ('../config/mail.json')
 
 module.exports = app =>{
     const signin = async (req, res) => {
@@ -63,28 +67,43 @@ module.exports = app =>{
 
     const forgotPassword = async (req, res) => {
 
-        const user = await app.db('users')
+        const transport = nodemailer.createTransport({
+            host,
+            port,
+            auth:{
+                user,
+                pass
+            }
+        })
+        /*transport.use('compile',hbs({
+            viewEngine:'handlebars',
+            viewPath: path.resolve('./resources/mail/'),
+            extName: '.html',
+        }))*/
+        
+        const users = await app.db('users')
             .where({email: req.body.email})
             .first()
 
-        if(!user) return res.status(400).send({"error":"Usuário não encontrado"})
+        if(!users) return res.status(400).send({"error":"Usuário não encontrado"})
 
-        if(user.disabled){
+        if(users.disabled){
             return res.status(400).send({"error":"Usuário desabilitado"})
         }
 
-        const token = crypto.randomBytes(12).toString('hex')
+        const token = crypto.randomBytes(8).toString('hex')
 
         app.db('users')
-            .where({email: user.email})
+            .where({email: users.email})
             .update('password', token)
             .then(_=>res.status(204).send())
             .catch(err=> res.status(500).send(err))   
             
-        mailer.sendEmail({
-            to: user.email,
+        transport.sendMail({
+            to: users.email,
             from: 'ettsegura@gmail.com',
-            template: 'auth/forgot_password',
+            text: "Nova senha",
+            html: "<b>Sua nova senha é {{token}}</b>",
             context: {token},
         },(err)=>{
             if(err) return res.status(400).send({"error":"Cannot send forgot password"})
