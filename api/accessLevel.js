@@ -16,16 +16,20 @@ module.exports = app =>{
         }catch(msg){
             return res.status(400)
         }
+        const payload = {
+            id: accessLevel.id,
+            description: accessLevel.description
+        }
         if(accessLevel.id){
             app.db('level')
                 .update(accessLevel)
                 .where({id:accessLevel.id})
-                .then(_=> res.status(204).send())
+                .then(_=> res.status(200).json({...payload}))
                 .catch(err=> res.status(500).send(err))
         } else{
             app.db('level')
                 .insert(accessLevel)
-                .then(_=> res.status(204).send())
+                .then(_=> res.status(201).json({...payload}))
                 .catch(err=> res.status(500).send(err))
 
         }
