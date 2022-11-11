@@ -3,12 +3,12 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex, Promise) {
-    return knex.schema.createTable('levelPermission', table=>{
+    return knex.schema.createTable('userLevel', table=>{
         table.increments('id').primary()
-        table.integer('levelId').defaultTo(1)
+        table.integer('levelId')
         table.foreign('levelId').references('id').inTable('level')
-        table.integer('menuId')
-        table.foreign('menuId').references('id').inTable('menu')
+        table.integer('userId')
+        table.foreign('userId').references('id').inTable('users')
       })
     
 };
@@ -18,5 +18,5 @@
  * @returns { Promise<void> }
  */
  exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('levelPermission')
+    return knex.schema.dropTable('userLevel')
 };

@@ -14,9 +14,7 @@ module.exports = app =>{
     app.route('/users/newPassword').post(app.api.user.newPassword)
         
     app.route('/users/disable').post(app.api.user.disable)
-        
-    app.route('/user/userLevel').post(app.api.user.userLevel)
-        
+            
     app.route('/user/filter').get(app.api.user.filterUser)
         
     app.route('/users/:id')
@@ -29,13 +27,13 @@ module.exports = app =>{
     
     app.route('/accessLevel/edit').post(app.api.accessLevel.edit)
    
+    app.route('/accessLevel/delete').post(app.api.accessLevel.deleteLevel)
+
     app.route('/accessLevel/:id')
         .put(app.api.accessLevel.save)
         .get(app.api.accessLevel.getById)
         .delete(app.api.accessLevel.deleteLevel)
         
-    app.route('/accessLevel/delete').post(app.api.accessLevel.deleteLevel)
-
     app.route('/menu')
         .post(app.api.menu.save)
         .get(app.api.menu.get)
@@ -47,9 +45,21 @@ module.exports = app =>{
         .get(app.api.menu.getById)
 
     app.route('/permission').post(app.api.accessLevel.newPermission)
+
+    app.route('/permission/edit').post(app.api.accessLevel.editPermission)
         
     app.route('/permission/:levelId')
         .get(app.api.accessLevel.getPermission)
+
+    app.route('/userLevel').post(app.api.userLevel.save)
+
+    app.route('/userLevel/edit').post(app.api.userLevel.editLevel)
+
+    app.route('/userLevel/deleteLevel').post(app.api.userLevel.deleteLevel)
+    
+    app.route('/userLevel/:userId')
+        .put(app.api.userLevel.save)
+        .get(app.api.userLevel.getLevel)
 
 
 }

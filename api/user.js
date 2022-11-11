@@ -49,18 +49,17 @@ module.exports =  app =>{
     //função get usuário, retorna todos os usuários cadastrados
     const get = (req, res)=> {
         app.db('users')
-            .join('level', 'users.levelId', '=', 'level.id')
-            .select('users.id','users.name','users.email','users.admin','users.disabled','users.levelId','level.description')
+            .select('id','name','email','admin','disabled')
             .then(users=> res.json(users))
             .catch(err=> res.status(500).send(err))
     }
     //função get usuário pelo id
     const getById = (req, res)=> {
         app.db('users')
-            .join('level', 'users.levelId', '=', 'level.id')
+            .join('userLevel', 'users.id', '=', 'userLevel.userId')
+            .join('level','level.id','=','userLevel.levelId')
             .where({'users.id': req.params.id})
-            .select('users.id','users.name','users.email','users.admin','users.disabled','users.levelId','level.description')
-            .first()
+            .select('users.id','users.name','users.email','users.admin','users.disabled','level.id','level.description')
             .then(user=> res.json(user))
             .catch(err=> res.status(500).send({err:"Não foi possivel buscar o usuário"}))
     }
@@ -97,18 +96,7 @@ module.exports =  app =>{
             .then(users=>res.status(204).send())
             .catch(err=> res.status(500).send(err))  
     }
-    //modifica o nivel de acesso do usuário (recebe o id do usuário e a descrição do campo de acesso)
-    const userLevel = async (req,res) => {
-        const accessLevel = await app.db('level')
-        .where({description:req.description}).first()
-
-        app.db('users')
-            .where({id: req.id})
-            .update('levelId', accessLevel.id)
-            .then(users=>res.status(204).send())
-            .catch(err=> res.status(500).send(err))  
-    }
-
+    // arrumar
     const filterUser = (req,res)=>{
         const user = {...req.body}
 
@@ -132,5 +120,5 @@ module.exports =  app =>{
         }
     }
 
-    return{save, get,getById, newPassword, edit, disable, userLevel, filterUser }
+    return{save, get,getById, newPassword, edit, disable,  filterUser }
 }

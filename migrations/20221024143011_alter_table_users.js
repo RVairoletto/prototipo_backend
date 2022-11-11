@@ -3,10 +3,11 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex, Promise) {
+  /*
   return knex.schema.alterTable('users', table=>{
     table.integer('levelId').defaultTo(1)
     table.foreign('levelId').references('id').inTable('level')
-  })
+  })*/
 };
 
 /**
@@ -14,7 +15,7 @@ exports.up = function(knex, Promise) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex, Promise) {
-  return knex.schema.alterTable('users', table=>{
+  /*return knex.schema.alterTable('users', table=>{
     table.dropColumn('levelId')
-  })
+  })*/
 };

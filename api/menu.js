@@ -31,14 +31,14 @@ module.exports = app =>{
     }
     const get = (req, res)=> {
         app.db('menu')
-            .select('id','description')
+            .select('id','description','text','pageRoute')
             .then(menu=> res.json(menu))
             .catch(err=> res.status(500).send(err))
     }
 
     const getById = (req, res)=> {
         app.db('menu')
-            .select('id','description')
+            .select('id','description','text','pageRoute')
             .where({id: req.params.id})
             .first()
             .then(menu=> res.json(menu))

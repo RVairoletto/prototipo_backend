@@ -10,6 +10,10 @@ const {host, port, user, pass} = require ('../config/mail.json')
 
 module.exports = app =>{
     
+    const encryptPassword = password =>{
+        const salt = bcrypt.genSaltSync(10)
+        return bcrypt.hashSync(password, salt)
+    }
     
     const signin = async (req, res) => {
         if(!req.body.email || !req.body.password){
@@ -23,7 +27,16 @@ module.exports = app =>{
 
         if(!user) return res.status(400).send({"error":"Usuário não encontrado"})
 
-        
+        if(user.password.toString().length < 12){
+            const pass = encryptPassword(user.password)
+
+            app.db('users')
+            .where({email: user.email})
+            .update('password', pass)
+            .then(_=>res.status(204).send())
+            .catch(err=> res.status(500).send(err))   
+
+        }
         if(user.password != req.body.password){
             const isMatch = bcrypt.compareSync(req.body.password, user.password)
             if(!isMatch) return res.status(401).send({"error":"Email/Senha incorretos"})
@@ -42,7 +55,6 @@ module.exports = app =>{
             email: user.email,
             admin: user.admin,
             disabled: user.disabled,
-            levelId: user.levelId,
             iat: now,
             exp: now + (60*60*24)
         }
@@ -94,13 +106,7 @@ module.exports = app =>{
         }
 
         const token = crypto.randomBytes(8).toString('hex')
-
-        app.db('users')
-            .where({email: users.email})
-            .update('password', token)
-            .then(_=>res.status(204).send())
-            .catch(err=> res.status(500).send(err))   
-            
+    
         transport.sendMail({
             to: users.email,
             from: 'ettsegura@gmail.com',
@@ -112,6 +118,14 @@ module.exports = app =>{
 
             return res.status(204).send()
         })
+
+        const password = encryptPassword(token)
+
+        app.db('users')
+            .where({email: users.email})
+            .update('password', password)
+            .then(_=>res.status(204).send())
+            .catch(err=> res.status(500).send(err))   
 
     }
     return{signin,validateToken, forgotPassword}
