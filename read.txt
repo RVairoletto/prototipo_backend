@@ -33,6 +33,7 @@ Rotas:
 ------------------------auth.js-------------------------------------
 --('/signin')--
 .post -> Faz o login do usuário, recebe a senha e email {name, email}
+e retorna { id, name, email, admin, disabled, iat, exp, token }
 
 --('/forgotPassword')--
 .post -> Processo esqueci a senha, recebe o email do usuário, atualiza
@@ -41,6 +42,7 @@ Rotas:
 ------------------------accessLevel.js-------------------------
 --('/accessLevel')--
 .post -> Cadastro do nivel de acesso, recebe a Descrição {description}
+e retorna os dados cadastrados
 
 .get ->Retorna todos os niveis de acesso {id, description}
 
