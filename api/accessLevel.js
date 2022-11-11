@@ -93,7 +93,7 @@ module.exports = app =>{
     const getPermission = async (req, res) => {
           app.db('levelPermission')
             .join('menu','menu.id', '=','levelPermission.menuId')
-            .select('menu.id','menu.description')
+            .select('menu.id','menu.description','levelPermission.id')
             .where({levelId: req.params.levelId})
             .then(Lvl=> res.json(Lvl))
             .catch(err=> res.status(500).send(err))
@@ -132,7 +132,7 @@ module.exports = app =>{
             .del()
         }
         app.db('level')
-        .where({'level.id':req.params.id})
+        .where({'level.id':req.body.id})
         .del()
         .then(_=> res.status(204).send())
         .catch(err=> res.status(500).send({err:"Não foi possivel deletar"}))

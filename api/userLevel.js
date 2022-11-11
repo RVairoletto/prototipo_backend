@@ -62,7 +62,7 @@ module.exports =  app =>{
         try{
             
             const userFromDB = await app.db('userLevel') 
-                .where({'userLevel.levelId': req.body.id,'userLevel.userId':req.body.userId})
+                .where({'userLevel.levelId': req.body.levelId,'userLevel.userId':req.body.userId})
             
             existsOrError(userFromDB, {"error":"Nivel de acesso não cadastrado"})
             
