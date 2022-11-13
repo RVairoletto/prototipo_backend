@@ -26,7 +26,9 @@ module.exports = app =>{
         } else{
             app.db('level')
                 .insert(accessLevel)
-                .then(_=> res.status(201).json(accessLevel))
+                .select('id','description')
+                .where({description: accessLevel.description})
+                .then(lvl=> res.status(201).json(lvl))
                 .catch(err=> res.status(500).send(err))
 
         }
