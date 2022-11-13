@@ -56,8 +56,8 @@ module.exports =  app =>{
     //função get usuário pelo id
     const getById = (req, res)=> {
         app.db('users')
-            .join('userLevel', 'users.id', '=', 'userLevel.userId')
-            .join('level','level.id','=','userLevel.levelId')
+            .join('userlevel', 'users.id', '=', 'userlevel.userid')
+            .join('level','level.id','=','userlevel.levelid')
             .where({'users.id': req.params.id})
             .select('users.id','users.name','users.email','users.admin','users.disabled','level.id','level.description')
             .then(user=> res.json(user))
@@ -102,7 +102,7 @@ module.exports =  app =>{
 
         if(user.email){
             app.db('users')
-            .join('level', 'users.levelId', '=', 'level.id')
+            .join('level', 'users.levelid', '=', 'level.id')
             .select('users.id','users.name','users.email','users.admin','users.disabled','level.description')
             .where({email: user.email})
             .first()
@@ -111,7 +111,7 @@ module.exports =  app =>{
         }
         else if(user.name){
             app.db('users')
-            .join('level', 'users.levelId', '=', 'level.id')
+            .join('level', 'users.levelid', '=', 'level.id')
             .select('users.id','users.name','users.email','users.admin','users.disabled','level.description')
             .where({email: user.email})
             .first()

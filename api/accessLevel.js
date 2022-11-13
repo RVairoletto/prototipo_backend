@@ -64,26 +64,26 @@ module.exports = app =>{
         const permission = {...req.body}
 
         try{
-            existsOrError(permission.levelId, {"error":"Nivel de acesso não informado"})
+            existsOrError(permission.levelid, {"error":"Nivel de acesso não informado"})
             existsOrError(permission.menuId, {"error":"Permissão não informada"})
 
-            const userFromDB = await app.db('levelPermission')
-                .where({'levelPermission.levelId':permission.levelId,'levelPermission.menuId':permission.menuId}).first()
-            if(!permission.levelId||!permission.menuId){
+            const userFromDB = await app.db('levelpermission')
+                .where({'levelpermission.levelid':permission.levelid,'levelpermission.menuId':permission.menuId}).first()
+            if(!permission.levelid||!permission.menuId){
                 notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
             }
 
         }catch(msg){
             return res.status(400)
         }
-       if(permission.levelId && permission.menuId){
-            app.db('levelPermission')
+       if(permission.levelid && permission.menuId){
+            app.db('levelpermission')
                 .update(permission)
-                .where({levelId:permission.levelId, menuId:permission.menuId})
+                .where({levelid:permission.levelid, menuId:permission.menuId})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
         } else{
-            app.db('levelPermission')
+            app.db('levelpermission')
                 .insert(permission)
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
@@ -93,10 +93,10 @@ module.exports = app =>{
        
     }
     const getPermission = async (req, res) => {
-          app.db('levelPermission')
-            .join('menu','menu.id', '=','levelPermission.menuId')
-            .select('menu.id','menu.description','levelPermission.id')
-            .where({levelId: req.params.levelId})
+          app.db('levelpermission')
+            .join('menu','menu.id', '=','levelpermission.menuId')
+            .select('menu.id','menu.description','levelpermission.id')
+            .where({levelid: req.params.levelid})
             .then(Lvl=> res.json(Lvl))
             .catch(err=> res.status(500).send(err))
     }
@@ -104,9 +104,9 @@ module.exports = app =>{
     const editPermission = async (req, res)=> {
         const permission = {...req.body}
 
-        app.db('levelPermission')
+        app.db('levelpermission')
                 .update(permission)
-                .where({levelId:accessLevel.id})
+                .where({levelid:accessLevel.id})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
 
@@ -115,8 +115,8 @@ module.exports = app =>{
     const deleteLevel = async (req,res)=>{
         try{
             
-            const userFromDB = await app.db('userLevel') 
-                .where({'userLevel.levelId': req.body.id})
+            const userFromDB = await app.db('userlevel') 
+                .where({'userlevel.levelid': req.body.id})
             
             notExistsOrError(userFromDB, {"error":"Nivel de acesso tem usuários cadastrados"})
             
@@ -125,12 +125,12 @@ module.exports = app =>{
             return res.status(400)
         }
 
-        const userFromDB = await app.db('levelPermission') 
-        .where({'levelPermission.levelId': req.body.id})
+        const userFromDB = await app.db('levelpermission') 
+        .where({'levelpermission.levelid': req.body.id})
        
         if(userFromDB){
-            app.db('levelPermission')
-            .where({'levelPermission.levelId':req.body.id})
+            app.db('levelpermission')
+            .where({'levelpermission.levelid':req.body.id})
             .del()
         }
         app.db('level')

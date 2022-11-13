@@ -4,34 +4,34 @@ module.exports =  app =>{
     const{existsOrError, notExistsOrError, equalsOrError} = app.api.validation
 
     /*
-    salva o nivel de acesso do usuário (recebe o id do usuário (userId) 
-    e id do nivel de acesso(levelId))
+    salva o nivel de acesso do usuário (recebe o id do usuário (userid) 
+    e id do nivel de acesso(levelid))
     */
     const save = async (req, res) => {
-        const userLevel = {...req.body}
+        const userlevel = {...req.body}
 
         try{
-            existsOrError(userLevel.levelId, {"error":"Nivel de acesso não informado"})
-            existsOrError(userLevel.userId, {"error":"usuário não informado"})
+            existsOrError(userlevel.levelid, {"error":"Nivel de acesso não informado"})
+            existsOrError(userlevel.userid, {"error":"usuário não informado"})
 
-            const userFromDB = await app.db('userLevel')
-                .where({'userLevel.levelId':userLevel.levelId,'userLevel.userId':userLevel.userId}).first()
-            if(!userLevel.levelId||!userLevel.userId){
+            const userFromDB = await app.db('userlevel')
+                .where({'userlevel.levelid':userlevel.levelid,'userlevel.userid':userlevel.userid}).first()
+            if(!userlevel.levelid||!userlevel.userid){
                 notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
             }
 
         }catch(msg){
             return res.status(400)
         }
-       if(userLevel.levelId && userLevel.userId){
-            app.db('userLevel')
-                .update(userLevel)
-                .where({levelId:userLevel.levelId, userId:userLevel.userId})
+       if(userlevel.levelid && userlevel.userid){
+            app.db('userlevel')
+                .update(userlevel)
+                .where({levelid:userlevel.levelid, userid:userlevel.userid})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
         } else{
-            app.db('userLevel')
-                .insert(userLevel)
+            app.db('userlevel')
+                .insert(userlevel)
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
 
@@ -40,20 +40,20 @@ module.exports =  app =>{
        
     }
     const getLevel = async (req, res) => {
-          app.db('userLevel')
-            .join('level','level.id', '=','userLevel.levelId')
+          app.db('userlevel')
+            .join('level','level.id', '=','userlevel.levelid')
             .select('level.id','level.description')
-            .where({userId: req.params.userId})
+            .where({userid: req.params.userid})
             .then(Lvl=> res.json(Lvl))
             .catch(err=> res.status(500).send(err))
     }
 
     const editLevel = async (req, res)=> {
-        const userLevel = {...req.body}
+        const userlevel = {...req.body}
 
-        app.db('userLevel')
-                .update(userLevel)
-                .where({userId:userLevel.userId})
+        app.db('userlevel')
+                .update(userlevel)
+                .where({userid:userlevel.userid})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
 
@@ -61,8 +61,8 @@ module.exports =  app =>{
     const deleteLevel = async (req,res)=>{
         try{
             
-            const userFromDB = await app.db('userLevel') 
-                .where({'userLevel.levelId': req.body.levelId,'userLevel.userId':req.body.userId})
+            const userFromDB = await app.db('userlevel') 
+                .where({'userlevel.levelid': req.body.levelid,'userlevel.userid':req.body.userid})
             
             existsOrError(userFromDB, {"error":"Nivel de acesso não cadastrado"})
             
@@ -71,8 +71,8 @@ module.exports =  app =>{
             return res.status(400)
         }
 
-        app.db('userLevel')
-        .where({'userLevel.levelId':req.body.levelId,'userLevel.userId':req.body.userId})
+        app.db('userlevel')
+        .where({'userlevel.levelid':req.body.levelid,'userlevel.userid':req.body.userid})
         .del()
         .then(_=> res.status(204).send())
         .catch(err=> res.status(500).send({err:"Não foi possivel deletar"}))
