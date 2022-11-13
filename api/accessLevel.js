@@ -64,22 +64,22 @@ module.exports = app =>{
         const permission = {...req.body}
 
         try{
-            existsOrError(permission.levelid, {"error":"Nivel de acesso não informado"})
+            existsOrError(permission.levelId, {"error":"Nivel de acesso não informado"})
             existsOrError(permission.menuId, {"error":"Permissão não informada"})
 
             const userFromDB = await app.db('levelpermission')
-                .where({'levelpermission.levelid':permission.levelid,'levelpermission.menuId':permission.menuId}).first()
-            if(!permission.levelid||!permission.menuId){
+                .where({'levelpermission.levelid':permission.levelId,'levelpermission.menuid':permission.menuId}).first()
+            if(!permission.levelId||!permission.menuId){
                 notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
             }
 
         }catch(msg){
             return res.status(400)
         }
-       if(permission.levelid && permission.menuId){
+       if(permission.levelId && permission.menuId){
             app.db('levelpermission')
                 .update(permission)
-                .where({levelid:permission.levelid, menuId:permission.menuId})
+                .where({levelid:permission.levelId, menuid:permission.menuId})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
         } else{
@@ -94,9 +94,9 @@ module.exports = app =>{
     }
     const getPermission = async (req, res) => {
           app.db('levelpermission')
-            .join('menu','menu.id', '=','levelpermission.menuId')
+            .join('menu','menu.id', '=','levelpermission.menuid')
             .select('menu.id','menu.description','levelpermission.id')
-            .where({levelid: req.params.levelid})
+            .where({levelid: req.params.levelId})
             .then(Lvl=> res.json(Lvl))
             .catch(err=> res.status(500).send(err))
     }

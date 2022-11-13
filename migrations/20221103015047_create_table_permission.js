@@ -7,8 +7,8 @@
         table.increments('id').primary()
         table.integer('levelid').defaultTo(1)
         table.foreign('levelid').references('id').inTable('level')
-        table.integer('menuId')
-        table.foreign('menuId').references('id').inTable('menu')
+        table.integer('menuid')
+        table.foreign('menuid').references('id').inTable('menu')
       })
     
 };

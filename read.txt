@@ -71,7 +71,7 @@ e retorna os dados cadastrados
 
 --------------------------accessLevel.js--------------------------
 --('/permission')--
-.post -> Cadastro de uma permissão de acesso, recebe {levelId, menuId}
+.post -> Cadastro de uma permissão de acesso, recebe {levelid, menuid}
 
 --('/permission/edit')--
 .post -> Dá um update no banco com os dados recebidos, recebe o id da permissão 
@@ -79,12 +79,12 @@ e os campos editados
 
 --('/permission/:levelId')--
 .get -> Retorna o id do menu e sua descrição e o id da permissão {menu id, menu description, id}
-de acordo com o id do nivel de acesso passado no endpoint {levelId}
+de acordo com o id do nivel de acesso passado no endpoint {levelid}
 
 -----------------------userLevel.js---------------------------------
 --('/userLevel')--
 .post -> Cadastra os niveis de acesso de um usuário, recebe o id do usuário
-e o id do nivel de acesso {userId, levelId}
+e o id do nivel de acesso {userid, levelid}
 
 --('/userLevel/edit')--
 .post ->  Dá um update no banco com os dados recebidos, recebe o id do usuário {userId}
@@ -92,9 +92,9 @@ e os campos editados
 
 ('/userLevel/deleteLevel')
 .post -> Deleta o nivel de acesso do usuário, recebe o id do nivel de acesso 
-e o id do usuário {levelId, userId}
+e o id do usuário {levelid, userid}
 
 ('/userLevel/:userId')
 .put -> Dá um update no banco com os dados recebidos
 .get -> Retorna o id do nivel e sua descrição {level id, level description}
-de acordo com o id do usuário passado no endpoint {userId}
+de acordo com o id do usuário passado no endpoint {userid}
