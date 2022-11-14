@@ -142,6 +142,19 @@ module.exports = app =>{
 
 
     }
+
+    const deletePermission = async (req, res) => {
+        const userFromDB = await app.db('levelpermission') 
+        .where({'levelpermission.levelid': req.body.id})
+       
+        if(userFromDB){
+            app.db('levelpermission')
+            .where({'levelpermission.levelid':req.body.id})
+            .del()
+            .then(_=> res.status(204).send())
+            .catch(err=> res.status(500).send({err:"Não foi possivel deletar"}))
+        }
+  }
    
-    return {save, get, getById, edit, newPermission, getPermission, deleteLevel, editPermission}
+    return {save, get, getById, edit, newPermission, getPermission, deleteLevel, editPermission,deletePermission }
 }

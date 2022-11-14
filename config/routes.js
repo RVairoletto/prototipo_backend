@@ -44,9 +44,12 @@ module.exports = app =>{
         .put(app.api.menu.save)
         .get(app.api.menu.getById)
 
+        
     app.route('/permission').post(app.api.accessLevel.newPermission)
 
     app.route('/permission/edit').post(app.api.accessLevel.editPermission)
+
+    app.route('/permission/delete').post(app.api.accessLevel.deletePermission)
         
     app.route('/permission/:levelid')
         .get(app.api.accessLevel.getPermission)
