@@ -89,7 +89,6 @@ module.exports = app =>{
                 .insert(permission)
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
-
         }
 
        
