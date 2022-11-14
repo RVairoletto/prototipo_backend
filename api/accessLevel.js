@@ -66,12 +66,12 @@ module.exports = app =>{
         const permission = {...req.body}
 
         try{
-            existsOrError(permission.levelId, {"error":"Nivel de acesso não informado"})
-            existsOrError(permission.menuId, {"error":"Permissão não informada"})
+            existsOrError(permission.levelid, {"error":"Nivel de acesso não informado"})
+            existsOrError(permission.menuid, {"error":"Permissão não informada"})
 
             const userFromDB = await app.db('levelpermission')
-                .where({'levelpermission.levelid':permission.levelId,'levelpermission.menuid':permission.menuId}).first()
-            if(!permission.levelId||!permission.menuId){
+                .where({'levelpermission.levelid':permission.levelid,'levelpermission.menuid':permission.menuid}).first()
+            if(!permission.levelid||!permission.menuid){
                 notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
             }
 
@@ -81,14 +81,14 @@ module.exports = app =>{
        if(permission.id ){
             app.db('levelpermission')
                 .update(permission)
-                .where({levelid:permission.levelId, menuid:permission.menuId})
+                .where({levelid:permission.levelid, menuid:permission.menuid})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
         } else{
             app.db('levelpermission')
                 .insert(permission)
                 .then(_=> res.status(204).send())
-                .catch(err=> res.status(500).send(err))
+                .catch(err=> res.status(500).send({err:"erro ao cadastrar permissão"}))
         }
 
        
@@ -97,7 +97,7 @@ module.exports = app =>{
           app.db('levelpermission')
             .join('menu','menu.id', '=','levelpermission.menuid')
             .select('menu.id','menu.description','levelpermission.id')
-            .where({levelid: req.params.levelId})
+            .where({levelid: req.params.levelid})
             .then(Lvl=> res.json(Lvl))
             .catch(err=> res.status(500).send(err))
     }

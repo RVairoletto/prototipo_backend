@@ -11,12 +11,12 @@ module.exports =  app =>{
         const userLevel = {...req.body}
 
         try{
-            existsOrError(userLevel.levelId, {"error":"Nivel de acesso não informado"})
-            existsOrError(userLevel.userId, {"error":"usuário não informado"})
+            existsOrError(userLevel.levelid, {"error":"Nivel de acesso não informado"})
+            existsOrError(userLevel.userid, {"error":"usuário não informado"})
 
             const userFromDB = await app.db('userlevel')
-                .where({'userlevel.levelid':userlevel.levelid,'userlevel.userid':userLevel.userId}).first()
-            if(!userLevel.levelId||!userLevel.userId){
+                .where({'userlevel.levelid':userlevel.levelid,'userlevel.userid':userLevel.userid}).first()
+            if(!userLevel.levelid||!userLevel.userid){
                 notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
             }
 
@@ -26,7 +26,7 @@ module.exports =  app =>{
        if(userLevel.id){
             app.db('userlevel')
                 .update(userLevel)
-                .where({levelid:userLevel.levelId, userid:userLevel.userId})
+                .where({levelid:userLevel.levelid, userid:userLevel.userid})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
         } else{
@@ -43,7 +43,7 @@ module.exports =  app =>{
           app.db('userlevel')
             .join('level','level.id', '=','userlevel.levelid')
             .select('level.id','level.description')
-            .where({userid: req.params.userId})
+            .where({userid: req.params.userid})
             .then(Lvl=> res.json(Lvl))
             .catch(err=> res.status(500).send(err))
     }
@@ -53,7 +53,7 @@ module.exports =  app =>{
 
         app.db('userlevel')
                 .update(userLevel)
-                .where({userid:userLevel.userId})
+                .where({userid:userLevel.userid})
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send({err:"Não foi possivel editar"}))
 
@@ -62,7 +62,7 @@ module.exports =  app =>{
         try{
             
             const userFromDB = await app.db('userlevel') 
-                .where({'userlevel.levelid': req.body.levelId,'userlevel.userid':req.body.userId})
+                .where({'userlevel.levelid': req.body.levelid,'userlevel.userid':req.body.userid})
             
             existsOrError(userFromDB, {"error":"Nivel de acesso não cadastrado"})
             
@@ -72,7 +72,7 @@ module.exports =  app =>{
         }
 
         app.db('userlevel')
-        .where({'userlevel.levelid':req.body.levelId,'userlevel.userid':req.body.userId})
+        .where({'userlevel.levelid':req.body.levelid,'userlevel.userid':req.body.userid})
         .del()
         .then(_=> res.status(204).send())
         .catch(err=> res.status(500).send({err:"Não foi possivel deletar"}))
