@@ -23,7 +23,7 @@ module.exports =  app =>{
         }catch(msg){
             return res.status(400)
         }
-       if(userLevel.levelId && userLevel.userId){
+       if(userLevel.id){
             app.db('userlevel')
                 .update(userLevel)
                 .where({levelid:userLevel.levelId, userid:userLevel.userId})
