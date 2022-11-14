@@ -56,9 +56,8 @@ module.exports =  app =>{
     //função get usuário pelo id
     const getById = (req, res)=> {
         app.db('users')
-            .join('userlevel', 'users.id', '=', 'userlevel.userid')
             .where({'users.id': req.params.id})
-            .select('users.id','users.name','users.email','users.admin','users.disabled','userlevel.levelid')
+            .select('users.id','users.name','users.email','users.admin','users.disabled')
             .then(user=> res.json(user))
             .catch(err=> res.status(500).send({err:"Não foi possivel buscar o usuário"}))
     }
