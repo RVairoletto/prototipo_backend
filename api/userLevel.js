@@ -15,7 +15,7 @@ module.exports =  app =>{
             existsOrError(userLevel.userid, {"error":"usuário não informado"})
 
             const userFromDB = await app.db('userlevel')
-                .where({'userlevel.levelid':userlevel.levelid,'userlevel.userid':userLevel.userid}).first()
+                .where({'userlevel.levelid':userLevel.levelid,'userlevel.userid':userLevel.userid}).first()
             if(!userLevel.id){
                 notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
             }
