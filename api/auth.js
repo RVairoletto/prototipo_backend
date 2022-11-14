@@ -33,8 +33,7 @@ module.exports = app =>{
             app.db('users')
             .where({email: user.email})
             .update('password', pass)
-            .then(_=>res.status(204).send())
-            .catch(err=> res.status(500).send(err))   
+            
 
         }
         if(user.password != req.body.password){
