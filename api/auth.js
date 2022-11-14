@@ -34,7 +34,6 @@ module.exports = app =>{
             .where({email: user.email})
             .update('password', pass)
             
-
         }
         if(user.password != req.body.password){
             const isMatch = bcrypt.compareSync(req.body.password, user.password)

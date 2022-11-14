@@ -26,10 +26,11 @@ module.exports = app =>{
         } else{
             app.db('level')
                 .insert(accessLevel)
-                .select('id','description')
-                .where({description: accessLevel.description})
-                .then(lvl=> res.json(lvl))
-                .catch(err=> res.status(500).send(err))
+            
+            app.db('level')
+            .select('id','description')
+            .then(Lvl=> res.json(Lvl))
+            .catch(err=> res.status(500).send(err))
 
         }
     }
