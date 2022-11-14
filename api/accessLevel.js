@@ -29,6 +29,7 @@ module.exports = app =>{
             
             app.db('level')
                 .select('id','description')
+                .where({description:accessLevel.description})
                 .then(Lvl=> res.json(Lvl))
                 .catch(err=> res.status(500).send(err))
 
