@@ -24,13 +24,13 @@ module.exports = app =>{
                 .then(_=> res.status(200).json(accessLevel))
                 .catch(err=> res.status(500).send(err))
         } else{
-            app.db('level')
-                .insert(accessLevel)
+            await app.db('level')
+                    .insert(accessLevel)
             
             app.db('level')
-            .select('id','description')
-            .then(Lvl=> res.json(Lvl))
-            .catch(err=> res.status(500).send(err))
+                .select('id','description')
+                .then(Lvl=> res.json(Lvl))
+                .catch(err=> res.status(500).send(err))
 
         }
     }
