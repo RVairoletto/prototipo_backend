@@ -48,7 +48,7 @@ module.exports = app =>{
 
     app.route('/permission/edit').post(app.api.accessLevel.editPermission)
         
-    app.route('/permission/:levelId')
+    app.route('/permission/:levelid')
         .get(app.api.accessLevel.getPermission)
 
     app.route('/userLevel').post(app.api.userLevel.save)
@@ -57,7 +57,7 @@ module.exports = app =>{
 
     app.route('/userLevel/deleteLevel').post(app.api.userLevel.deleteLevel)
     
-    app.route('/userLevel/:userId')
+    app.route('/userLevel/:userid')
         .put(app.api.userLevel.save)
         .get(app.api.userLevel.getLevel)
 
