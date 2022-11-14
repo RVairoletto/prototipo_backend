@@ -78,7 +78,7 @@ module.exports = app =>{
         }catch(msg){
             return res.status(400)
         }
-       if(permission.levelId && permission.menuId){
+       if(permission.levelId ){
             app.db('levelpermission')
                 .update(permission)
                 .where({levelid:permission.levelId, menuid:permission.menuId})
