@@ -16,7 +16,7 @@ module.exports =  app =>{
 
             const userFromDB = await app.db('userlevel')
                 .where({'userlevel.levelid':userlevel.levelid,'userlevel.userid':userLevel.userid}).first()
-            if(!userLevel.levelid||!userLevel.userid){
+            if(!userLevel.id){
                 notExistsOrError(userFromDB, {"error":"Permissão já cadastrada"})
             }
 
