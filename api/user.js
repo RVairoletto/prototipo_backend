@@ -67,7 +67,7 @@ module.exports =  app =>{
         const user = {...req.body}
 
         const userdb = await app.db('users')
-        .where({id: user.id})
+        .where({id: req.body.id})
         .first()
 
         if(userdb.password != user.oldpassword){
