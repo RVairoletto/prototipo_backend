@@ -70,8 +70,8 @@ module.exports =  app =>{
         .where({id: req.body.id})
         .first()
 
-        if(userdb.password != user.oldpassword){
-            const isMatch = bcrypt.compareSync(user.oldpassword, userdb.password)
+        if(userdb.password != user.oldPassword){
+            const isMatch = bcrypt.compareSync(user.oldPassword, userdb.password)
             if(!isMatch) return res.status(401).send({"error":"Senha incorreta"})
         }
 
@@ -79,7 +79,7 @@ module.exports =  app =>{
         app.db('users')
             .where({id: user.id})
             .update('password', user.password)
-            .then(users=>res.status(204).send())
+            .then(_=>res.status(204).send())
             .catch(err=> res.status(500).send(err))       
     }
 
