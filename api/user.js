@@ -66,6 +66,15 @@ module.exports =  app =>{
     const newPassword = async (req, res)=> {
         const user = {...req.body}
 
+        const userdb = await app.db('users')
+        .where({id: user.id})
+        .first()
+
+        if(userdb.password != user.oldpassword){
+            const isMatch = bcrypt.compareSync(user.oldpassword, userdb.password)
+            if(!isMatch) return res.status(401).send({"error":"Senha incorreta"})
+        }
+
         user.password = encryptPassword(user.password)
         app.db('users')
             .where({id: user.id})
