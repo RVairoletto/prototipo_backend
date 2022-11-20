@@ -61,11 +61,11 @@ module.exports =  app =>{
     const deleteLevel = async (req,res)=>{
         const userLevel = {...req.body}
         try{
-            
+
             existsOrError(userLevel.levelid, {"error":"Id do nivel não informado"})
             existsOrError(userLevel.userid,  {"error":"Id do usuário não informado"})
             const userFromDB = await app.db('userlevel') 
-                .where({'userlevel.levelid': userLevel.levelid,'userlevel.userid':userLevel.userid})
+                .where({'userlevel.levelid': userLevel.levelid,'userlevel.userid':userLevel.userid}).first()
             
             existsOrError(userFromDB, {"error":"Nivel de acesso não cadastrado"})
             
