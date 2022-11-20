@@ -59,10 +59,13 @@ module.exports =  app =>{
 
     }
     const deleteLevel = async (req,res)=>{
+        const userLevel = {...req.body}
         try{
             
+            existsOrError(userLevel.levelid, {"error":"Id do nivel não informado"})
+            existsOrError(userLevel.userid,  {"error":"Id do usuário não informado"})
             const userFromDB = await app.db('userlevel') 
-                .where({'userlevel.levelid': req.body.levelid,'userlevel.userid':req.body.userid})
+                .where({'userlevel.levelid': userLevel.levelid,'userlevel.userid':userLevel.userid})
             
             existsOrError(userFromDB, {"error":"Nivel de acesso não cadastrado"})
             
@@ -72,7 +75,7 @@ module.exports =  app =>{
         }
 
         app.db('userlevel')
-        .where({'userlevel.levelid':req.body.levelid,'userlevel.userid':req.body.userid})
+        .where({'userlevel.levelid':userLevel.levelid,'userlevel.userid':userLevel.userid})
         .del()
         .then(_=> res.status(204).send())
         .catch(err=> res.status(500).send({err:"Não foi possivel deletar"}))
