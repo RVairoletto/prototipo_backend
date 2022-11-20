@@ -3,13 +3,13 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex, Promise) {
-    return knex('menu').insert({
+    return knex('menu').insert([{
             id: 1,description:"homepage" , text:"Home", pageroute:"/homePage"},
             { id: 2,description:"usuarios" , text:"Usuários", pageroute:"/usuarios"},
             { id: 3,description:"niveisacesso" , text:"Níveis de Acesso", pageroute:"/niveisAcesso"},
             { id: 4,description:"professores" , text:"Professores", pageroute:"/professores"},
             { id: 5,description:"disciplinas" , text:"Disciplinas", pageroute:"/disciplinas"},
-            { id: 6,description:"alterarsenha" , text:"Alterar Senha", pageroute:"/alterarSenha"}   
+            { id: 6,description:"alterarsenha" , text:"Alterar Senha", pageroute:"/alterarSenha"}]  
     )
     
     
