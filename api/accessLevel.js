@@ -54,6 +54,8 @@ module.exports = app =>{
     const edit = async (req, res)=> {
         const accessLevel = {...req.body}
 
+        if(accessLevel.id == 1)return res.status(401).send({"error":"Edição não permitida"})
+
         app.db('level')
                 .update(accessLevel)
                 .where({id:accessLevel.id})
@@ -104,7 +106,7 @@ module.exports = app =>{
 
     const editPermission = async (req, res)=> {
         const permission = {...req.body}
-
+        
         app.db('levelpermission')
                 .update(permission)
                 .where({levelid:accessLevel.id})

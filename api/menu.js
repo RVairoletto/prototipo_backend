@@ -22,23 +22,38 @@ module.exports = app =>{
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
         } else{
+             
             app.db('menu')
                 .insert(menu)
                 .then(_=> res.status(204).send())
-                .catch(err=> res.status(500).send(err))
+                .catch(err=> res.status(500).send(err))   
+        }
 
+        if(!menu.id){
+            
+            const userFromDB = await app.db('menu')
+                .where({'menu.description':menu.description}).first()
+            
+            app.db('levelpermission')
+                .insert({
+                    levelid : 1,
+                    menuid: userFromDB.id,
+                   }
+               )
+                .then(_=> res.status(204).send())
+                .catch(err=> res.status(500).send(err))
         }
     }
     const get = (req, res)=> {
         app.db('menu')
-            .select('id','description','text','pageRoute')
+            .select('id','description','text','pageroute')
             .then(menu=> res.json(menu))
             .catch(err=> res.status(500).send(err))
     }
 
     const getById = (req, res)=> {
         app.db('menu')
-            .select('id','description','text','pageRoute')
+            .select('id','description','text','pageroute')
             .where({id: req.params.id})
             .first()
             .then(menu=> res.json(menu))

@@ -86,6 +86,8 @@ module.exports =  app =>{
     //modifica os dados do usuário
     const edit = async (req, res)=> {
         const user = {...req.body}
+        
+        if(user.id == 1)return res.status(401).send({"error":"Edição não permitida"})
 
         app.db('users')
                 .update(user)
@@ -97,6 +99,9 @@ module.exports =  app =>{
     //desativa o usuário (muda o campo disabled para true)
     const disable = async (req,res) => {
         const user = {...req.body}
+
+        if(user.id == 1)return res.status(401).send({"error":"Desativação não permitida"})
+
         app.db('users')
             .where({id: user.id})
             .update('disabled', user.disabled)

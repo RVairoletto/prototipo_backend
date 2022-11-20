@@ -5,7 +5,7 @@
  exports.up = function(knex, Promise) {
     return knex.schema.alterTable('menu', table=>{
       table.string('text')
-      table.string('pageRoute')
+      table.string('pageroute')
     })
   };
   
@@ -16,7 +16,7 @@
   exports.down = function(knex, Promise) {
     return knex.schema.alterTable('menu', table=>{
       table.dropColumn('text')
-      table.dropColumn('pageRoute')
+      table.dropColumn('pageroute')
     })
   };
   
