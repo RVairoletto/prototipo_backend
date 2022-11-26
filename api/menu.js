@@ -1,6 +1,6 @@
 module.exports = app =>{
     const{existsOrError, notExistsOrError, equalsOrError} = app.api.validation
-
+    //Função de cadastro de menu
     const save = async (req, res)=>{
         const menu = {...req.body}
         try{
@@ -34,7 +34,7 @@ module.exports = app =>{
             const userFromDB = await app.db('menu')
                 .where({'menu.description':menu.description}).first()
             
-            app.db('levelpermission')
+            app.db('level_permission')
                 .insert({
                     levelid : 1,
                     menuid: userFromDB.id,
@@ -44,13 +44,14 @@ module.exports = app =>{
                 .catch(err=> res.status(500).send(err))
         }
     }
+    //get dos menus
     const get = (req, res)=> {
         app.db('menu')
             .select('id','description','text','pageroute')
             .then(menu=> res.json(menu))
             .catch(err=> res.status(500).send(err))
     }
-
+    //get de um menu
     const getById = (req, res)=> {
         app.db('menu')
             .select('id','description','text','pageroute')
@@ -59,7 +60,7 @@ module.exports = app =>{
             .then(menu=> res.json(menu))
             .catch(err=> res.status(500).send(err))
     }
-
+    //Função de edição de um menu
     const edit = async (req, res)=> {
         const menu = {...req.body}
 

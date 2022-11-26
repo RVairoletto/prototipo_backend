@@ -72,7 +72,7 @@ module.exports =  app =>{
 
         if(userdb.password != user.oldPassword){
             const isMatch = bcrypt.compareSync(user.oldPassword, userdb.password)
-            if(!isMatch) return res.status(401).send({"error":"Senha incorreta"})
+            if(!isMatch) return res.status(401).send({"error":"Senha atual incorreta"})
         }
 
         user.password = encryptPassword(user.password)
@@ -108,29 +108,7 @@ module.exports =  app =>{
             .then(users=>res.status(204).send())
             .catch(err=> res.status(500).send(err))  
     }
-    // arrumar
-    const filterUser = (req,res)=>{
-        const user = {...req.body}
+    
 
-        if(user.email){
-            app.db('users')
-            .join('level', 'users.levelid', '=', 'level.id')
-            .select('users.id','users.name','users.email','users.admin','users.disabled','level.description')
-            .where({email: user.email})
-            .first()
-            .then(user=> res.json(user))
-            .catch(err=> res.status(500).send(err))
-        }
-        else if(user.name){
-            app.db('users')
-            .join('level', 'users.levelid', '=', 'level.id')
-            .select('users.id','users.name','users.email','users.admin','users.disabled','level.description')
-            .where({email: user.email})
-            .first()
-            .then(user=> res.json(user))
-            .catch(err=> res.status(500).send(err))
-        }
-    }
-
-    return{save, get,getById, newPassword, edit, disable,  filterUser }
+    return{save, get,getById, newPassword, edit, disable }
 }

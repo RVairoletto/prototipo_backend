@@ -28,10 +28,11 @@ module.exports = {
     }
   },*/
 
+    //Config do banco de dados
   
     client: 'postgresql',
     connection: {
-      database: 'db_projeto_integrador_2022',
+      database: 'projeto_ponto_docente',
       user:     'postgres',
       password: '123456789'
     },

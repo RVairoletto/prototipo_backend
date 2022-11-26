@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex, Promise) {
-    return knex('userlevel').insert({
+    return knex('user_level').insert({
          levelid : 1,
          userid:1,
         }
@@ -17,7 +17,7 @@
  * @returns { Promise<void> }
  */
  exports.down = function(knex, Promise) {
-    return knex('userlevel')
-        .where({'userlevel.userid':1})
+    return knex('user_level')
+        .where({'user_level.userid':1})
         .del()
 };

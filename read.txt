@@ -8,7 +8,6 @@ Rotas:
 --('/users')--
 .post -> Salva o usuario no banco, recebe os dados do usuário
 {name, email, password, admin(default: false), disabled(default: false)}
-
 .get -> Retorna todos os usuários cadastrados, retorna os dados 
 { id, name, email, admin, disabled }
 
@@ -21,14 +20,10 @@ Rotas:
 --('/users/disable')--
 .post -> Desabilita o usuário, recebe o id do usuário {id}
 
---('/user/filter')-- Não ta funcionando
-.get ->
-
 --('/users/:id')--
 .put -> Dá um update no banco com os dados recebidos
-
 .get -> Retorna os dados de um usuário de acordo com o id passado no endpoint
- { id, name, email, admin, disabled, level id, level description }
+ { id, name, email, admin, disabled, level.id, level.description }
 
 ------------------------auth.js-------------------------------------
 --('/signin')--
@@ -43,7 +38,6 @@ e retorna { id, name, email, admin, disabled, iat, exp, token }
 --('/accessLevel')--
 .post -> Cadastro do nivel de acesso, recebe a Descrição {description}
 e retorna os dados cadastrados
-
 .get ->Retorna todos os niveis de acesso {id, description}
 
 --('/accessLevel/edit')--
@@ -55,7 +49,7 @@ e retorna os dados cadastrados
 --('/accessLevel/:id')--
 .put -> Dá um update no banco com os dados recebidos
 .get -> Retorna os dados de um nivel de acesso {id, description}
-.delete (desativado)->
+
 
 ---------------------------menu.js-------------------------------
 --('/menu')--
@@ -67,7 +61,7 @@ e retorna os dados cadastrados
 
 --('/menu/:id')--
 .put -> Dá um update no banco com os dados recebidos
-.get -> Retorna um menu {id, description, text, pageRoute}
+.get -> Retorna um menu {id, description, text, pageroute}
 
 --------------------------accessLevel.js--------------------------
 --('/permission')--
@@ -78,7 +72,7 @@ e retorna os dados cadastrados
 e os campos editados
 
 --('/permission/:levelid')--
-.get -> Retorna o id do menu e sua descrição e o id da permissão {menu id, menu description, id}
+.get -> Retorna o id do menu e sua descrição e o id da permissão {menu.id, menu.description, id}
 de acordo com o id do nivel de acesso passado no endpoint {levelid}
 
 -----------------------userLevel.js---------------------------------
@@ -96,5 +90,5 @@ e o id do usuário {levelid, userid}
 
 --('/userLevel/:userid')--
 .put -> Dá um update no banco com os dados recebidos
-.get -> Retorna o id do nivel e sua descrição {level id, level description}
+.get -> Retorna o id do nivel e sua descrição {level.id, level.description}
 de acordo com o id do usuário passado no endpoint {userid}

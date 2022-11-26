@@ -9,12 +9,14 @@ const hbs = require ('nodemailer-express-handlebars')
 const {host, port, user, pass} = require ('../config/mail.json')
 
 module.exports = app =>{
-    
+    //criptografia utilizando o bcrypt
     const encryptPassword = password =>{
         const salt = bcrypt.genSaltSync(10)
         return bcrypt.hashSync(password, salt)
     }
-    
+     /*Função de login de usuário, verifica se todos os dados foram informados 
+     e estão corretos
+    */
     const signin = async (req, res) => {
         if(!req.body.email || !req.body.password){
             return res.status(400).send({"error":"Usuário ou senha não informados"})
@@ -62,6 +64,7 @@ module.exports = app =>{
             token: jwt.encode(payload, authSecret)
         })
     }
+    //Função que valida o token gerado no login
     const validateToken = async(req,res) =>{
         const userData = req.body || null 
         try {
@@ -76,7 +79,7 @@ module.exports = app =>{
         }
         res.send({"res":false})
     }
-
+    //Função esqueci a senha
     const forgotPassword = async (req, res) => {
 
         const transport = nodemailer.createTransport({
@@ -107,7 +110,7 @@ module.exports = app =>{
     
         transport.sendMail({
             to: users.email,
-            from: 'ettsegura@gmail.com',
+            from: 'exemplo@gmail.com',
             text: "Nova senha",
             html: "<b>Sua nova senha é: </b>"+token,
             context: {token},

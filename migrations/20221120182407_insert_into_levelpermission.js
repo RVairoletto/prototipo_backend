@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex, Promise) {
-    return knex('levelpermission').insert([{
+    return knex('level_permission').insert([{
             menuid: 1,levelid: 1},
             { menuid: 2,levelid: 1},
             { menuid: 3,levelid: 1},
@@ -20,7 +20,7 @@
  * @returns { Promise<void> }
  */
  exports.down = function(knex, Promise) {
-    return knex('levelpermission')
-        .where({'levelpermission.levelid':1})
+    return knex('level_permission')
+        .where({'level_permission.levelid':1})
         .del()
 };

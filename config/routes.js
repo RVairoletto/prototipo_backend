@@ -1,3 +1,4 @@
+//Rotas das funções
 module.exports = app =>{
     app.post('/signup', app.api.user.save)
     app.post('/signin', app.api.auth.signin)
@@ -15,7 +16,6 @@ module.exports = app =>{
         
     app.route('/users/disable').post(app.api.user.disable)
             
-    app.route('/user/filter').get(app.api.user.filterUser)
         
     app.route('/users/:id')
         .put(app.api.user.save)

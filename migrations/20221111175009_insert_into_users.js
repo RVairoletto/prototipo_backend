@@ -7,11 +7,10 @@
          name :"admin",
          email:"admin@email.com",
          password:"admin1234",
-         admin:true,
-         id:1
+         admin:true
         }
     )
-    
+
     
 };
 

@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex, Promise) {
-    return knex.schema.createTable('userlevel', table=>{
+    return knex.schema.createTable('user_level', table=>{
         table.increments('id').primary()
         table.integer('levelid')
         table.foreign('levelid').references('id').inTable('level')
@@ -18,5 +18,5 @@
  * @returns { Promise<void> }
  */
  exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('userlevel')
+    return knex.schema.dropTable('user_level')
 };
