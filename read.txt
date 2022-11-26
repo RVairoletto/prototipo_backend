@@ -1,37 +1,41 @@
-Rotas:
+----------nome do arquivo-------------------
+--('rota da função')--
+.post ->Recebe dados no body da requisição e pode retornar dados 
+.get ->Não recebe dados no body mas retorna dados
+.put ->Recebe dados no body mas não retorna nada
 
 ---------------------user.js----------------------------------
 --('/signup')--
-.post ->  Salva o usuario no banco, recebe os dados do usuário
+.post ->  Salva o usuario no banco, recebe os dados do usuário:
 {name, email, password, admin(default: false), disabled(default: false)}
 
 --('/users')--
-.post -> Salva o usuario no banco, recebe os dados do usuário
+.post -> Salva o usuario no banco, recebe os dados do usuário:
 {name, email, password, admin(default: false), disabled(default: false)}
-.get -> Retorna todos os usuários cadastrados, retorna os dados 
+.get -> Retorna todos os usuários cadastrados, retorna os dados:
 { id, name, email, admin, disabled }
 
 --('/users/edit')--
 .post -> Dá um update no banco com os dados recebidos, recebe o id e os campos editados
 
 --('/users/newPassword')--
-.post -> Atualiza a senha do usuário, recebe {password}
+.post -> Atualiza a senha do usuário, recebe: {password}
 
 --('/users/disable')--
-.post -> Desabilita o usuário, recebe o id do usuário {id}
+.post -> Desabilita o usuário, recebe o id do usuário: {id}
 
 --('/users/:id')--
 .put -> Dá um update no banco com os dados recebidos
-.get -> Retorna os dados de um usuário de acordo com o id passado no endpoint
+.get -> Retorna os dados de um usuário de acordo com o id passado no endpoint:
  { id, name, email, admin, disabled, level.id, level.description }
 
 ------------------------auth.js-------------------------------------
 --('/signin')--
-.post -> Faz o login do usuário, recebe a senha e email {name, email}
-e retorna { id, name, email, admin, disabled, iat, exp, token }
+.post -> Faz o login do usuário, recebe a senha e email: {name, email}
+e retorna: { id, name, email, admin, disabled, iat, exp, token }
 
 --('/forgotPassword')--
-.post -> Processo esqueci a senha, recebe o email do usuário, atualiza
+.post -> Processo esqueci a senha, recebe o email do usuário: {email}, atualiza
  a senha e envia um email com a senha nova para o usuário
 
 ------------------------accessLevel.js-------------------------
