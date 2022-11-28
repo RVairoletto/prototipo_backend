@@ -38,11 +38,14 @@ module.exports =  app =>{
                 .then(_=> res.status(204).send())
                 .catch(err=> res.status(500).send(err))
         } else{
+            await app.db('users')
+                    .insert(user)
+            
             app.db('users')
-                .insert(user)
-                .then(_=> res.status(204).send())
+                .select('id')
+                .where({email:user.email})
+                .then(Lvl=> res.json(Lvl))
                 .catch(err=> res.status(500).send(err))
-
         }
 
     }
